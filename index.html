@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard KPIs · Infloww</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1>Dashboard KPIs</h1>
+      <p class="subtitle">Infloww + Hubstaff · Sube ambos archivos para ver KPIs e ingresos por hora</p>
+      <div class="upload-section">
+        <div class="upload-card">
+          <span class="upload-label">1. Infloww (Marketing Analytics)</span>
+          <label class="btn btn-primary btn-upload">
+            <input type="file" id="fileInfloww" accept=".csv,.xlsx,.xls" hidden>
+            <span id="labelInfloww">Subir CSV / Excel</span>
+          </label>
+        </div>
+        <div class="upload-card">
+          <span class="upload-label">2. Hubstaff (Timesheets o Reports)</span>
+          <label class="btn btn-ghost btn-upload">
+            <input type="file" id="fileHubstaff" accept=".csv,.xlsx,.xls" hidden>
+            <span id="labelHubstaff">Subir CSV / Excel</span>
+          </label>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button type="button" class="btn btn-ghost" id="toggleSheetPanel">Conectar Google Sheets (solo Infloww)</button>
+      </div>
+    </header>
+
+    <section class="sheet-panel collapsed" id="sheetPanel">
+      <div class="sheet-panel-inner">
+        <p>Pega la URL de una Google Sheet publicada. Los datos se actualizarán automáticamente a las <strong>12:00 AM UTC cada 2 días</strong> (cuando tengas la página abierta).</p>
+        <div class="input-row">
+          <input type="text" id="sheetUrl" placeholder="https://docs.google.com/spreadsheets/d/.../edit" />
+          <button type="button" class="btn btn-primary" id="saveSheetUrl">Guardar y activar</button>
+        </div>
+        <p class="hint">Exporta desde Infloww a CSV, impórtalo en Google Sheets y comparte el enlace "Cualquier persona con el enlace".</p>
+      </div>
+    </section>
+
+    <div class="last-update" id="lastUpdate"></div>
+    <div class="next-update" id="nextUpdate"></div>
+
+    <main class="dashboard" id="dashboard">
+      <div class="empty-state" id="emptyState">
+        <div class="empty-icon">📊</div>
+        <h2>Sin datos aún</h2>
+        <p>Sube el <strong>CSV de Infloww</strong> (Marketing Analytics) y el <strong>CSV de Hubstaff</strong> (Timesheets o Reports → Time & Activity) para ver los KPIs. Las horas de Hubstaff se actualizan al subir un nuevo export.</p>
+      </div>
+      <div class="kpi-grid" id="kpiGrid" hidden></div>
+      <div class="table-section" id="tableSection" hidden>
+        <h3>Detalle por fila (primeras filas)</h3>
+        <div class="table-wrap">
+          <table id="dataTable"></table>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
