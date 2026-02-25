@@ -77,6 +77,14 @@
   let calOpen = false;
 
   // ── DOM ──
+  function truncName(name, max) {
+    max = max || 18;
+    if (name.length <= max) return name;
+    const ext = name.lastIndexOf('.') >= 0 ? name.slice(name.lastIndexOf('.')) : '';
+    const base = name.slice(0, name.length - ext.length);
+    const keep = max - ext.length - 3;
+    return keep > 0 ? base.slice(0, keep) + '...' + ext : name.slice(0, max - 3) + '...';
+  }
   const $ = (id) => document.getElementById(id);
   const fileInfloww = $('fileInfloww');
   const fileHubstaff = $('fileHubstaff');
@@ -908,12 +916,12 @@
     if (!f) return;
     readFile(f).then((d) => {
       const count = mergeIntoHistory(d);
-      labelInfloww.textContent = f.name;
+      labelInfloww.textContent = truncName(f.name);
       render();
       if (count > 0) {
         const stats = getHistoryStats();
         const msg = `${count} registros agregados a la base de datos (${stats.totalRecords} total).`;
-        labelInfloww.textContent = f.name + ' ✓';
+        labelInfloww.textContent = truncName(f.name) + ' ✓';
         console.log(msg);
       }
     }).catch((e) => alert(e.message));
@@ -923,7 +931,7 @@
   fileHubstaff.addEventListener('change', () => {
     const f = fileHubstaff.files[0];
     if (!f) return;
-    readFile(f).then((d) => { hubstaffRaw = d; labelHubstaff.textContent = f.name; saveHubstaff(); render(); })
+    readFile(f).then((d) => { hubstaffRaw = d; labelHubstaff.textContent = truncName(f.name); saveHubstaff(); render(); })
       .catch((e) => alert(e.message));
     fileHubstaff.value = '';
   });
