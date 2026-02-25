@@ -1365,17 +1365,30 @@
         }
       }
 
+      const COL_WIDTHS = [150, 80, 80, 70, 70, 65, 65, 65, 65, 70, 60, 90, 75, 75, 85, 75];
+
+      function setColumnWidths(sid, widths) {
+        for (let i = 0; i < widths.length; i++) {
+          fmtReqs.push({ updateDimensionProperties: {
+            range: { sheetId: sid, dimension: 'COLUMNS', startIndex: i, endIndex: i + 1 },
+            properties: { pixelSize: widths[i] }, fields: 'pixelSize',
+          }});
+        }
+      }
+
       function applyMainSheetFormat(sid, headerRow, avgRow, scoreRow, dataStart, dataEnd, totalCols) {
         cellFmt(sid, 0, dataEnd, 0, totalCols, {
           textFormat: Object.assign({}, defaultFont, { foregroundColor: BLACK }),
           horizontalAlignment: 'CENTER',
           verticalAlignment: 'MIDDLE',
+          wrapStrategy: 'CLIP',
         });
 
         cellFmt(sid, headerRow, headerRow + 1, 0, totalCols, {
           backgroundColor: rgb('F1C232'),
-          textFormat: Object.assign({}, defaultFont, { bold: true, foregroundColor: rgb('5B0F00') }),
+          textFormat: Object.assign({}, defaultFont, { bold: true, foregroundColor: rgb('5B0F00'), fontSize: 9 }),
           horizontalAlignment: 'CENTER',
+          wrapStrategy: 'WRAP',
         });
 
         if (avgRow >= 0) {
@@ -1434,10 +1447,14 @@
           },
         });
 
-        fmtReqs.push({ autoResizeDimensions: { dimensions: { sheetId: sid, dimension: 'COLUMNS', startIndex: 0, endIndex: totalCols } } });
+        setColumnWidths(sid, COL_WIDTHS);
 
         fmtReqs.push({ updateDimensionProperties: {
-          range: { sheetId: sid, dimension: 'ROWS', startIndex: 0, endIndex: dataEnd },
+          range: { sheetId: sid, dimension: 'ROWS', startIndex: headerRow, endIndex: headerRow + 1 },
+          properties: { pixelSize: 36 }, fields: 'pixelSize',
+        }});
+        fmtReqs.push({ updateDimensionProperties: {
+          range: { sheetId: sid, dimension: 'ROWS', startIndex: dataStart, endIndex: dataEnd },
           properties: { pixelSize: 24 }, fields: 'pixelSize',
         }});
       }
