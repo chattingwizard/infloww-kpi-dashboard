@@ -1221,11 +1221,11 @@
         const existing = await sheetsApi('/' + spreadsheetId + '?fields=sheets.properties', 'GET');
         const existingSheets = existing.sheets.map((s) => s.properties);
         const batchReqs = [];
-        for (const es of existingSheets) {
-          batchReqs.push({ deleteSheet: { sheetId: es.sheetId } });
-        }
         for (let i = 0; i < sheetTitles.length; i++) {
           batchReqs.push({ addSheet: { properties: { title: sheetTitles[i], index: i } } });
+        }
+        for (const es of existingSheets) {
+          batchReqs.push({ deleteSheet: { sheetId: es.sheetId } });
         }
         await sheetsApi('/' + spreadsheetId + ':batchUpdate', 'POST', { requests: batchReqs });
       }
