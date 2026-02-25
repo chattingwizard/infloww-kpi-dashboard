@@ -1329,7 +1329,7 @@
       }
       const WHITE = { red: 1, green: 1, blue: 1 };
       const BLACK = { red: 0, green: 0, blue: 0 };
-      const defaultFont = { fontFamily: 'Nunito', fontSize: 10 };
+      const defaultFont = { fontFamily: 'Montserrat', fontSize: 10 };
 
       function cellFmt(sid, r1, r2, c1, c2, fmt) {
         const fields = Object.keys(fmt).map(k => 'userEnteredFormat.' + k).join(',');
