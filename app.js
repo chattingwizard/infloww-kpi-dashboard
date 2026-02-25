@@ -82,10 +82,6 @@
   const fileHubstaff = $('fileHubstaff');
   const labelInfloww = $('labelInfloww');
   const labelHubstaff = $('labelHubstaff');
-  const toggleSheetPanel = $('toggleSheetPanel');
-  const sheetPanel = $('sheetPanel');
-  const sheetUrlInput = $('sheetUrl');
-  const saveSheetUrlBtn = $('saveSheetUrl');
   const controlsBar = $('controlsBar');
   const periodButtons = $('periodButtons');
   const calSection = $('calSection');
@@ -932,17 +928,6 @@
     fileHubstaff.value = '';
   });
 
-  toggleSheetPanel.addEventListener('click', () => sheetPanel.classList.toggle('collapsed'));
-
-  saveSheetUrlBtn.addEventListener('click', () => {
-    const url = sheetUrlInput.value.trim();
-    if (!url) { alert('Escribe la URL.'); return; }
-    localStorage.setItem(SHEET_URL_KEY, url);
-    fetchSheet(url).then((d) => { mergeIntoHistory(d); render(); })
-      .catch((e) => alert(e.message));
-    sheetPanel.classList.add('collapsed');
-  });
-
   periodButtons.addEventListener('click', (e) => {
     const btn = e.target.closest('[data-period]');
     if (!btn) return;
@@ -1549,7 +1534,4 @@
   loadHubstaff();
   initCalendar();
   render();
-
-  const savedUrl = localStorage.getItem(SHEET_URL_KEY);
-  if (savedUrl) sheetUrlInput.value = savedUrl;
 })();
