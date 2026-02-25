@@ -1128,14 +1128,14 @@
     return res.json();
   }
 
-  function numOrDash(v) { return isNaN(v) ? '' : v; }
-  function intOrDash(v) { return isNaN(v) ? '' : Math.round(v); }
-  function pctOrDash(v) { return isNaN(v) ? '' : v / 100; }
-  function hoursToSerial(h) { return isNaN(h) || h === 0 ? '' : h / 24; }
-  function secsToSerial(s) { return isNaN(s) ? '' : s / 86400; }
+  function numOrDash(v) { return isNaN(v) ? '-' : v; }
+  function intOrDash(v) { return isNaN(v) ? '-' : Math.round(v); }
+  function pctOrDash(v) { return isNaN(v) ? '-' : v / 100; }
+  function hoursToSerial(h) { return isNaN(h) || h === 0 ? '-' : h / 24; }
+  function secsToSerial(s) { return isNaN(s) ? '-' : s / 86400; }
 
   function fmtClockedExport(hours) {
-    if (isNaN(hours)) return '';
+    if (isNaN(hours)) return '-';
     const totalMin = Math.round(hours * 60);
     const h = Math.floor(totalMin / 60);
     const m = totalMin % 60;
