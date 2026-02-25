@@ -1052,8 +1052,11 @@
     }
   })();
 
+  const gsheetGear = $('gsheetGear');
   const savedCid = localStorage.getItem(GSHEET_CID_KEY);
   if (savedCid) gsheetClientIdInput.value = savedCid;
+
+  gsheetGear.addEventListener('click', () => gsheetSetup.classList.toggle('collapsed'));
 
   saveGsheetClientIdBtn.addEventListener('click', () => {
     const cid = gsheetClientIdInput.value.trim();
