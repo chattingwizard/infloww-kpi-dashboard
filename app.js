@@ -1365,7 +1365,7 @@
         }
       }
 
-      const COL_WIDTHS = [150, 80, 80, 70, 70, 65, 65, 65, 65, 70, 60, 90, 75, 75, 85, 75];
+      const COL_WIDTHS = [160, 90, 85, 100, 90, 80, 85, 80, 85, 100, 70, 130, 85, 85, 100, 100];
 
       function setColumnWidths(sid, widths) {
         for (let i = 0; i < widths.length; i++) {
@@ -1451,7 +1451,7 @@
 
         fmtReqs.push({ updateDimensionProperties: {
           range: { sheetId: sid, dimension: 'ROWS', startIndex: headerRow, endIndex: headerRow + 1 },
-          properties: { pixelSize: 36 }, fields: 'pixelSize',
+          properties: { pixelSize: 50 }, fields: 'pixelSize',
         }});
         fmtReqs.push({ updateDimensionProperties: {
           range: { sheetId: sid, dimension: 'ROWS', startIndex: dataStart, endIndex: dataEnd },
