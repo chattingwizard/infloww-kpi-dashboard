@@ -1045,10 +1045,19 @@
   const GSHEET_CID_KEY = 'infloww_gsheet_client_id';
   const GSHEET_ID_KEY = 'infloww_gsheet_id';
   const exportBtn = $('exportSheets');
+  const gsheetLink = $('gsheetLink');
   const gsheetSetup = $('gsheetSetup');
   const gsheetClientIdInput = $('gsheetClientId');
   const saveGsheetClientIdBtn = $('saveGsheetClientId');
   let gAccessToken = null;
+
+  (function initGsheetLink() {
+    const sid = localStorage.getItem(GSHEET_ID_KEY);
+    if (sid) {
+      gsheetLink.href = 'https://docs.google.com/spreadsheets/d/' + sid;
+      gsheetLink.style.display = '';
+    }
+  })();
 
   const savedCid = localStorage.getItem(GSHEET_CID_KEY);
   if (savedCid) gsheetClientIdInput.value = savedCid;
@@ -1462,7 +1471,10 @@
         await sheetsApi('/' + spreadsheetId + ':batchUpdate', 'POST', { requests: fmtReqs });
       }
 
-      window.open('https://docs.google.com/spreadsheets/d/' + spreadsheetId, '_blank');
+      const sheetUrl = 'https://docs.google.com/spreadsheets/d/' + spreadsheetId;
+      gsheetLink.href = sheetUrl;
+      gsheetLink.style.display = '';
+      window.open(sheetUrl, '_blank');
       resetExportBtn();
     } catch (err) {
       console.error(err);
