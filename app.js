@@ -1157,7 +1157,7 @@
       pctOrDash(r.fanCvr),
       secsToSerial(r.responseTime),
       fmtClockedExport(r.clockedHours),
-      hoursToSerial(r.duration) ? '=C' + rowNum + '/B' + rowNum + '/24' : '',
+      numOrDash(r.salesPerHour),
       intOrDash(r.characterCount),
       numOrDash(r.messagesSentPerHour),
     ];
@@ -1174,7 +1174,15 @@
       const data = processData();
       if (!data.length) { alert('No hay datos para exportar.'); resetExportBtn(); return; }
 
-      const sorted = [...data].sort((a, b) => a.employee.localeCompare(b.employee, 'es'));
+      function hasActivity(r) {
+        return !isNaN(r.directMessagesSent) && r.directMessagesSent > 0;
+      }
+      const sorted = [...data].sort((a, b) => {
+        const aa = hasActivity(a), ba = hasActivity(b);
+        if (aa !== ba) return aa ? -1 : 1;
+        return a.employee.localeCompare(b.employee, 'es');
+      });
+      const firstInactiveIdx = sorted.findIndex(r => !hasActivity(r));
       const teams = {};
       for (const r of sorted) {
         const tn = extractTeamName(r.group);
@@ -1464,6 +1472,14 @@
         const totalRows = 3 + sorted.length;
         applyNumberFormats(byEmpSid, totalRows);
         applyMainSheetFormat(byEmpSid, 0, 1, 2, 3, totalRows, 16);
+
+        if (firstInactiveIdx >= 0) {
+          const inactiveStart = 3 + firstInactiveIdx;
+          cellFmt(byEmpSid, inactiveStart, totalRows, 0, 16, {
+            backgroundColor: rgb('F4CCCC'),
+            textFormat: Object.assign({}, defaultFont, { foregroundColor: rgb('990000') }),
+          });
+        }
       }
 
       for (const tn of teamNames) {
