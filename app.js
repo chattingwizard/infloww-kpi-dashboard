@@ -1063,7 +1063,7 @@
     if (!cid) { alert('Pega tu Client ID.'); return; }
     localStorage.setItem(GSHEET_CID_KEY, cid);
     gsheetSetup.classList.add('collapsed');
-    startExport();
+    alert('Client ID guardado correctamente.');
   });
 
   exportBtn.addEventListener('click', () => {

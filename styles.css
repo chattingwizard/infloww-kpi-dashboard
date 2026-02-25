@@ -113,10 +113,15 @@ body {
 .btn-export:hover { background: #15803d; }
 
 .btn-gear {
-  font-size: 1.1rem;
-  padding: 0.25rem 0.5rem;
+  font-size: 1.15rem;
+  padding: 0.3rem 0.55rem;
   line-height: 1;
   cursor: pointer;
+  position: relative;
+  z-index: 2;
+}
+.btn-gear:hover {
+  background: var(--surface-hover);
 }
 
 .gsheet-link {
